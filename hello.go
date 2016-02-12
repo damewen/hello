@@ -4,18 +4,22 @@ import (
 	"github.com/spakin/awk"
 	"os"
 	"fmt"
+	"strconv"
 )
 
 func main() {
-	fmt.Printf("affichage de la colonne 2 \n")
+
+	
 	arg := os.Args[1]
+	col_str := os.Args[2]
 	fi, err := os.Open(arg)
+	col_int, err := strconv.Atoi(col_str)
 	if err != nil {
         panic(err)
     }
+	fmt.Printf("affichage de la colonne %d \n", col_int)
 	s := awk.NewScript()
-	//s.AppendStmt(awk.Auto("yoann"), nil)
 	s.SetFS(";")
-	s.AppendStmt(nil, func(s *awk.Script) { s.Println(s.F(2)) })
+	s.AppendStmt(nil, func(s *awk.Script) { s.Println(s.F(col_int)) })
 	s.Run(fi)
 }
